@@ -2,20 +2,23 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Model\Reply;
+use App\Model\Thread;
+use Tests\DatabaseTestCase;
 
-class ReadThreadsTest extends TestCase
-{
-    use DatabaseMigrations;
+class ReadThreadsTest extends DatabaseTestCase {
 
+
+    /**
+     * @var Thread
+     */
     protected $thread;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = factory(Thread::class)->create();
     }
 
     /** @test */
@@ -28,17 +31,17 @@ class ReadThreadsTest extends TestCase
     /** @test */
     function a_user_can_read_a_single_thread()
     {
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($this->thread->title);
     }
 
     /** @test */
     function a_user_can_read_replies_that_are_associated_with_a_thread()
     {
-        $reply = factory('App\Reply')
+        $reply = factory(Reply::class)
             ->create(['thread_id' => $this->thread->id]);
 
-        $this->get('/threads/' . $this->thread->id)
+        $this->get($this->thread->path())
             ->assertSee($reply->body);
     }
 }

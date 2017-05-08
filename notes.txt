@@ -4,5 +4,12 @@
 2. Reply
 3. User
 
-A. Thread is created by a user
-B. A reply belongs to a thread, and belongs to a user.
+Thread belongs to a user
+Thread has many Replies
+
+User has many Threads
+User has many Replies
+
+Reply belongs to a Thread
+Reply belongs to a User
+

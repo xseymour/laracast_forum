@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(\App\Model\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -24,10 +24,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 
-$factory->define(App\Thread::class, function ($faker) {
+$factory->define(\App\Model\Thread::class, function ($faker) {
     return [
         'user_id' => function () {
-            return factory('App\User')->create()->id;
+            return factory(\App\Model\User::class)->create()->id;
         },
         'title' => $faker->sentence,
         'body'  => $faker->paragraph
@@ -35,13 +35,13 @@ $factory->define(App\Thread::class, function ($faker) {
 });
 
 
-$factory->define(App\Reply::class, function ($faker) {
+$factory->define(\App\Model\Reply::class, function ($faker) {
     return [
         'thread_id' => function () {
-            return factory('App\Thread')->create()->id;
+            return factory(\App\Model\Thread::class)->create()->id;
         },
         'user_id' => function () {
-            return factory('App\User')->create()->id;
+            return factory(\App\Model\User::class)->create()->id;
         },
         'body'  => $faker->paragraph
     ];
