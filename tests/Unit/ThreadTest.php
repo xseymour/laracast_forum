@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Model\Reply;
 use App\Model\Thread;
 use App\Model\User;
 use Tests\TestCase;
@@ -45,5 +46,17 @@ class ThreadTest extends TestCase
         $this->get($this->thread->path())
             ->assertSee($this->thread->title)
             ->assertSee($this->thread->body);
+    }
+
+    /**
+     * @test
+     */
+    function a_thread_can_add_replies()
+    {
+        //Given a reply
+        $reply = factory(Reply::class)->make();
+        //assert use of addReply
+        $this->thread->addReply($reply);
+        $this->assertCount(1, $this->thread->replies);
     }
 }

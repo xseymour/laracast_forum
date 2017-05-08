@@ -51,4 +51,13 @@ class Thread extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Add a reply to a thread
+     * @param Reply $reply
+     */
+    public function addReply(Reply $reply)
+    {
+        $this->replies()->save($reply);
+    }
 }
