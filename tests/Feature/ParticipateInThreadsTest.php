@@ -9,7 +9,6 @@ use Tests\DatabaseTestCase;
 
 class ParticipateInThreadsTest extends DatabaseTestCase
 {
-    use DatabaseMigrations;
 
     /** @test */
     function unauthenticated_users_may_not_add_replies()
