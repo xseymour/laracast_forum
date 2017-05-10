@@ -12,10 +12,15 @@ class CreateThreadsTest extends DatabaseTestCase
     /** @test */
     function guests_cannot_create_threads()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-        $thread = make(Thread::class);
-        //when said user hits enpoint to submit a new thread
-        $this->post('/threads', $thread->toArray());
+        $this->withExceptionHandling();
+
+        //cannot see create page
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+
+        //cannot manually post a new thread
+        $this->post('/threads')
+            ->assertRedirect('/login');
     }
 
     /**
