@@ -19,7 +19,7 @@ class UserTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->user = create(User::class);
     }
 
     /**

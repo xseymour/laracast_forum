@@ -42,12 +42,12 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
-        Thread::create([
+        $thread = Thread::create([
             'user_id'   => auth()->id(),
             'title'     => $request->title,
             'body'      => $request->body,
         ]);
-        return redirect('/threads');
+        return redirect($thread->path());
     }
 
     /**

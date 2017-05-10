@@ -11,7 +11,7 @@ class ParticipateInThreadsTest extends DatabaseTestCase
 {
 
     /** @test */
-    function unauthenticated_users_may_not_add_replies()
+    function guests_may_not_add_replies()
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
@@ -19,17 +19,16 @@ class ParticipateInThreadsTest extends DatabaseTestCase
     }
 
     /** @test */
-    function an_authenticated_user_may_participate_in_forum_threads()
+    function authenticated_user_may_participate_in_forum_threads()
     {
         //Given we have an authenticated user
-        $user   = factory(User::class)->create();
-        $this->be($user);
+        $user   = $this->signIn();
         //And an existing thread
         /** @var Thread $thread */
-        $thread = factory(Thread::class)->create();
+        $thread = create(Thread::class);
         //When the user adds a reply to the thread via post
         /** @var Reply $reply */
-        $reply  = factory(Reply::class)->make(['thread_id' => $thread->id, 'user_id' => $user->id]);
+        $reply  = make(Reply::class, ['thread_id' => $thread->id, 'user_id' => $user->id]);
         $this->post($thread->path().'/replies', $reply->toArray());
         //Then their reply should be visible on the page.
         $this->get($thread->path())
