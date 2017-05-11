@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Model\Channel;
 use App\Model\Reply;
 use App\Model\Thread;
 use App\Model\User;
@@ -25,32 +26,32 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    function a_thread_has_replies()
-    {
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
-    }
-
-    /**
-     * @test
-     */
-    function a_thread_has_an_owner()
-    {
-        $this->assertInstanceOf(User::class, $this->thread->owner);
-    }
-
-    /**
-     * @test
-     */
     function a_thread_has_a_path()
     {
         $this->get($this->thread->path())
             ->assertSee($this->thread->title)
             ->assertSee($this->thread->body);
     }
+    
+    /** @test */
+    function a_thread_makes_a_string_path()
+    {
+        self::assertEquals('/threads/'. $this->thread->channel->slug .'/'. $this->thread->id, $this->thread->path());
+    }
 
-    /**
-     * @test
-     */
+    /** @test */
+    function a_thread_has_an_owner()
+    {
+        $this->assertInstanceOf(User::class, $this->thread->owner);
+    }
+
+    /** @test */
+    function a_thread_has_replies()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
+    }
+
+    /** @test */
     function a_thread_can_add_replies()
     {
         //Given a reply
@@ -58,5 +59,11 @@ class ThreadTest extends TestCase
         //assert use of addReply
         $this->thread->addReply($reply);
         $this->assertCount(1, $this->thread->replies);
+    }
+
+    /** @test */
+    function a_thread_belongs_to_a_channel()
+    {
+        self::assertInstanceOf(Channel::class, $this->thread->channel);
     }
 }

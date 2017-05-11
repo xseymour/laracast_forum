@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Channel;
 use App\Model\Thread;
 use Illuminate\Http\Request;
 
@@ -41,8 +42,10 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
+        /** @var Thread $thread */
         $thread = Thread::create([
             'user_id'   => auth()->id(),
+            'channel_id' => $request->channel_id,
             'title'     => $request->title,
             'body'      => $request->body,
         ]);
@@ -55,7 +58,7 @@ class ThreadsController extends Controller
      * @param  Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($channel_id, Thread $thread)
     {
         return view('threads.show', compact('thread'));
     }

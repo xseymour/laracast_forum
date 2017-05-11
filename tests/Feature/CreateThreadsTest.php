@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Model\Thread;
 use App\Model\User;
+use Illuminate\Http\Response;
 use Tests\DatabaseTestCase;
 
 class CreateThreadsTest extends DatabaseTestCase
@@ -32,13 +33,13 @@ class CreateThreadsTest extends DatabaseTestCase
         $this->signIn();
 
         //and a new thread
-        $thread = make(Thread::class, ['user_id' => auth()->id()]);
-
+        /** @var Thread $thread */
+        $thread = make(Thread::class);
         //when said user hits enpoint to submit a new thread
-        $this->post('/threads', $thread->toArray());
-
+        /** @var Response $response */
+        $response = $this->post('/threads', $thread->toArray());
         //when viewing all threads we should now see the created thread
-        $this->get($thread->path())
+        $this->get($response->headers->get('location'))
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }
