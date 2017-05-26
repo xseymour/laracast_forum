@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Model\Thread whereUserId($value)
  * @mixin \Eloquent
+ * @property int $channel_id
+ * @property-read \App\Model\Channel $channel
+ * @method static \Illuminate\Database\Query\Builder|\App\Model\Thread whereChannelId($value)
  */
 class Thread extends Model
 {
