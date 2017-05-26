@@ -30,6 +30,9 @@
                         @endforeach
                     </ul>
                 </li>
+                @if (Auth::check())
+                    <li><a href="/threads/create">New Thread</a></li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->
